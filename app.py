@@ -204,22 +204,23 @@ def index():
     }
 
                     function removerProtocolo(id) {
-      fetch('/remover', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({id: id})
-      })
-      .then(r => r.json())
-      .then(data => {
-        if (data.success) {
-          // Remove da lista
-          let el = document.getElementById('item-' + id.replaceAll('/', '-'));
-          if (el) el.remove();
-          document.getElementById('detail').innerHTML = '<em>Protocolo removido.</em>';
-        } else {
-          alert('Erro ao remover protocolo.');
-        }
-      });
+  if (!confirm('Tem certeza que deseja remover este protocolo?')) return;
+  fetch('/remover', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({id: id})
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) {
+      // Remove da lista
+      let el = document.getElementById('item-' + id.replaceAll('/', '-'));
+      if (el) el.remove();
+      document.getElementById('detail').innerHTML = '<em>Protocolo removido.</em>';
+    } else {
+      alert('Erro ao remover protocolo.');
+    }
+  });
     }
 
                     function removerProtocoloSelecionado() {
@@ -331,14 +332,12 @@ function filtrarPorPalavra() {
         <div class="container">
             <div class="left">
                 <h3>Protocolos</h3>
-                <div style="display: flex; flex-direction: column; gap: 6px;">
-                    <button class="filter-btn selected" id="btn-all" onclick="filterProtos('all')">Todos ({{total_todos}})</button>
-                    <button class="filter-btn" id="btn-arch" onclick="filterProtos('arch')">Arquivados (+) ({{total_arch}})</button>
-                    <button class="filter-btn" id="btn-notarch" onclick="filterProtos('notarch')">Não arquivados ({{total_notarch}})</button>
-                    <button class="filter-btn" id="btn-amabre" onclick="filterProtos('amabre')">AMABRE ({{total_amabre}})</button>
-                    <button class="filter-btn remove-main-btn" id="btn-remove-main" onclick="removerProtocoloSelecionado()" style="background:#ffdddd; color:#900; border-color:#d00;">Remover</button>
-                    <button class="filter-btn export-btn" id="btn-exportar" onclick="exportarProtocolos()" style="background:#e0ffe0; color:#060; border-color:#080;">Exportar</button>
-                </div>
+                <button class="filter-btn selected" id="btn-all" onclick="filterProtos('all')">Todos ({{total_todos}})</button>
+                <button class="filter-btn" id="btn-arch" onclick="filterProtos('arch')">Arquivados (+) ({{total_arch}})</button>
+                <button class="filter-btn" id="btn-notarch" onclick="filterProtos('notarch')">Não arquivados ({{total_notarch}})</button>
+                <button class="filter-btn" id="btn-amabre" onclick="filterProtos('amabre')">AMABRE ({{total_amabre}})</button>
+                <button class="filter-btn remove-main-btn" id="btn-remove-main" onclick="removerProtocoloSelecionado()" style="background:#ffdddd; color:#900; border-color:#d00; float:right;">Remover</button>
+                <button class="filter-btn export-btn" id="btn-exportar" onclick="exportarProtocolos()" style="background:#e0ffe0; color:#060; border-color:#080; float:right;">Exportar</button>
                 <div style="margin-top:10px"></div>
                 <label for="droplist-palavra">Filtrar por palavra-chave:</label>
                 <select id="droplist-palavra" onchange="filtrarPorPalavra()">
@@ -429,8 +428,11 @@ def exportar():
             blocos.append(bloco)
     conteudo = '\n\n'.join(blocos)
     now = datetime.datetime.now()
-    nome = f"Exportados_{now.strftime('%d-%m-%Y %H-%M')}.txt"
+    nome = f"Exportados {now.strftime('%d-%m-%Y %H-%M')}.txt"
     buf = io.BytesIO()
     buf.write(conteudo.encode('utf-8'))
     buf.seek(0)
     return send_file(buf, as_attachment=True, download_name=nome, mimetype='text/plain')
+
+if __name__ == '__main__':
+    app.run(debug=True)
