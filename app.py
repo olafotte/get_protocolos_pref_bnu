@@ -121,7 +121,7 @@ def index():
         <style>
         body { font-family: Arial, sans-serif; }
         .container { display: flex; height: 98vh; }
-        .left { width: 500px; border-right: 1px solid #ccc; overflow-y: auto; padding: 10px; }
+        .left { width: 20%; border-right: 1px solid #ccc; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; }
         .right { flex: 1; padding: 20px; overflow-y: auto; font-size: 1.35em; }
         .proto-item { cursor: pointer; padding: 6px; border-radius: 4px; }
         .proto-item:hover, .proto-item.selected { background: #e0e0e0; }
@@ -331,12 +331,14 @@ function filtrarPorPalavra() {
         <div class="container">
             <div class="left">
                 <h3>Protocolos</h3>
-                <button class="filter-btn selected" id="btn-all" onclick="filterProtos('all')">Todos ({{total_todos}})</button>
-                <button class="filter-btn" id="btn-arch" onclick="filterProtos('arch')">Arquivados (+) ({{total_arch}})</button>
-                <button class="filter-btn" id="btn-notarch" onclick="filterProtos('notarch')">Não arquivados ({{total_notarch}})</button>
-                <button class="filter-btn" id="btn-amabre" onclick="filterProtos('amabre')">AMABRE ({{total_amabre}})</button>
-                <button class="filter-btn remove-main-btn" id="btn-remove-main" onclick="removerProtocoloSelecionado()" style="background:#ffdddd; color:#900; border-color:#d00; float:right;">Remover</button>
-                <button class="filter-btn export-btn" id="btn-exportar" onclick="exportarProtocolos()" style="background:#e0ffe0; color:#060; border-color:#080; float:right;">Exportar</button>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <button class="filter-btn selected" id="btn-all" onclick="filterProtos('all')">Todos ({{total_todos}})</button>
+                    <button class="filter-btn" id="btn-arch" onclick="filterProtos('arch')">Arquivados (+) ({{total_arch}})</button>
+                    <button class="filter-btn" id="btn-notarch" onclick="filterProtos('notarch')">Não arquivados ({{total_notarch}})</button>
+                    <button class="filter-btn" id="btn-amabre" onclick="filterProtos('amabre')">AMABRE ({{total_amabre}})</button>
+                    <button class="filter-btn remove-main-btn" id="btn-remove-main" onclick="removerProtocoloSelecionado()" style="background:#ffdddd; color:#900; border-color:#d00;">Remover</button>
+                    <button class="filter-btn export-btn" id="btn-exportar" onclick="exportarProtocolos()" style="background:#e0ffe0; color:#060; border-color:#080;">Exportar</button>
+                </div>
                 <div style="margin-top:10px"></div>
                 <label for="droplist-palavra">Filtrar por palavra-chave:</label>
                 <select id="droplist-palavra" onchange="filtrarPorPalavra()">
