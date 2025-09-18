@@ -412,7 +412,21 @@ def exportar():
         with open('removidos.txt', 'r', encoding='utf-8') as f:
             removidos = set(line.strip() for line in f if line.strip())
     protocolos = extract_all_protocols("Protocolo_combinados.txt", removidos)
-    blocos = ['--- ' + p['id'] + '\n' + p['block'] for p in protocolos if p['id'] in ids]
+    blocos = []
+    for p in protocolos:
+        if p['id'] in ids:
+            # Formata número com zero à esquerda
+            if p['ano'] and p['numero']:
+                numero_formatado = p['numero'].zfill(5)
+                id_formatado = f"{p['ano']}/{numero_formatado}"
+            else:
+                id_formatado = p['id']
+            # Ajusta a primeira linha do bloco
+            block_lines = p['block'].splitlines()
+            if block_lines and block_lines[0].startswith('202') and '/' in block_lines[0]:
+                block_lines[0] = id_formatado + ' ---'
+            bloco = f"--- {id_formatado} ---\n" + '\n'.join(block_lines[1:])
+            blocos.append(bloco)
     conteudo = '\n\n'.join(blocos)
     now = datetime.datetime.now()
     nome = f"Exportados_{now.strftime('%d-%m-%Y %H-%M')}.txt"
