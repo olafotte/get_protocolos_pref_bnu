@@ -122,7 +122,7 @@ def index():
         body { font-family: Arial, sans-serif; }
         .container { display: flex; height: 98vh; }
         .left { width: 20%; border-right: 1px solid #ccc; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; }
-        .right { flex: 1; padding: 20px; overflow-y: auto; font-size: 1.35em; }
+    .right { flex: 1; padding: 20px; overflow-y: auto; font-size: min(1.2vw, 1.1em); }
         .proto-item { cursor: pointer; padding: 6px; border-radius: 4px; }
         .proto-item:hover, .proto-item.selected { background: #e0e0e0; }
         .highlight { background-color: yellow; font-weight: bold; }
