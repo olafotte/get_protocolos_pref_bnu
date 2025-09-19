@@ -31,7 +31,7 @@ familias = {
     'Klara Hering': ['klara hering', 'clara hering'],
     'Ernesto Emmendoerfer': ['ernesto emmendoerfer', 'ernesto emendoerfer'],
     'Gertrud Gross Hering': ['gertrud gross hering', 'gertrud gros hering', 'gertrud hering', 'gertrudes gross'],
-    'Teresina': ['teresina', 'terezina', 'teresinha','terezinha'],
+    'Teresina': ['teresina', 'terezina'],
     # Adicione outras famílias conforme necessário
 }
 
